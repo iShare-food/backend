@@ -1,0 +1,12 @@
+# Cadastrar usuário:
+
+POST http://localhost:3003/user
+Content-Type: application/json
+
+{
+    "name": "Sofia",
+    "email": "sofia@email.com",
+    "password": "123456",
+    "phone": "(19) 99999-0000",
+    "zipCode": "00012-456"
+}

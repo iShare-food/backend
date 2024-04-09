@@ -6,7 +6,7 @@ dotenv.config();
 // estabelecer a conexão com o banco no index.ts:
 
 export const connection = knex({
-	client: "mysql",
+	client: "mysql2",
 	connection: {
     host: process.env.DB_HOST,
     port: 3306,

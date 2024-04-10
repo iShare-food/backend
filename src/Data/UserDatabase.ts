@@ -1,10 +1,10 @@
-import {connection} from '../../src/connection';
+import {Connection} from '../../src/connection';
 
-export class UserDatabase {
+export class UserDatabase extends Connection {
     
     public insertUser = async (user: any): Promise<void> => {
         try {
-            await connection('users')
+            await Connection.connection('users')
                 .insert(user);
         }
         catch (err: any) {

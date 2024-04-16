@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { UserBusiness } from '../Business/UserBusiness';
+import { UserInputDTO } from '../Model/User';
 
 export class UserController {
     constructor(
@@ -8,14 +9,15 @@ export class UserController {
 
     public createUser = async (req: Request, res: Response): Promise<void | Response> => {
         try {
-            const { name, email, password, phone, zipCode } = req.body;
+            const { name, email, password, phoneNumber, zipCode, roleId } = req.body;
 
-            const input = {
+            const input: UserInputDTO = {
                 name,
                 email,
-                phone_number: phone,
-                zip_code: zipCode,
-                password
+                phoneNumber,
+                zipCode,
+                password,
+                roleId
             }
 
             await this.userBusiness.createUser(input);

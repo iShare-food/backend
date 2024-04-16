@@ -19,6 +19,9 @@ export class TableCreator extends Connection {
                 role VARCHAR(255) NOT NULL
             );
 
+            INSERT INTO roles (id, role)
+            VALUES(1, "DOADOR"), (2, "DONATARIO");
+
             CREATE TABLE IF NOT EXISTS posts (
                 id VARCHAR(255) PRIMARY KEY,
                 title VARCHAR(255) NOT NULL,
@@ -43,6 +46,9 @@ export class TableCreator extends Connection {
                 id INT PRIMARY KEY,
                 category VARCHAR(255) NOT NULL
             );
+
+            INSERT INTO categories (id, category)
+            VALUES(1, "PERECIVEL"), (2, "NAO_PERECIVEL");
 
             CREATE TABLE IF NOT EXISTS orders (
                 id VARCHAR(255) PRIMARY KEY,

@@ -4,22 +4,38 @@ import { User, UserInputDTO } from "../Model/User";
 import { IdGenerator } from "../Utils/IdGenerator";
 
 export class UserBusiness {
-    constructor (
-        private userDatabase: UserDatabase,
-        private createTable: TableCreator
-    ) {}
+  constructor(
+    private userDatabase: UserDatabase,
+    private createTable: TableCreator
+  ) {}
 
-    public createUser = async (input: UserInputDTO) => {
-        const { name, email, password, phoneNumber, zipCode, roleId }  = input;
+  public createUser = async (input: UserInputDTO) => {
+    const { name, email, password, phoneNumber, zipCode, roleId } = input;
 
-        await this.createTable.createTables();
+    await this.createTable.createTables();
 
-        const idGenerator = new IdGenerator();
+    const idGenerator = new IdGenerator();
 
-        const id = idGenerator.generateId();
+    const id = idGenerator.generateId();
 
-        const newUser: User = new User(id, name, email, password, phoneNumber, zipCode, roleId);
+    const newUser: User = new User(
+      id,
+      name,
+      email,
+      password,
+      phoneNumber,
+      zipCode,
+      roleId
+    );
 
-        await this.userDatabase.insertUser(newUser);
-    }
-};
+    await this.userDatabase.insertUser(
+      newUser.getId(),
+      newUser.getName(),
+      newUser.getEmail(),
+      newUser.getPassword(),
+      newUser.getPhoneNumber(),
+      newUser.getZipCode(),
+      newUser.getRole()
+    );
+  };
+}

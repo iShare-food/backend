@@ -72,7 +72,7 @@ export class User {
             case 2:
                 return UserRole.DONATARIO;
             default:
-                throw new Error("Invalid user role");
+                throw new Error("Tipo de usuário inválido");
         };
     };
 

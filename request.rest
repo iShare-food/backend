@@ -4,10 +4,10 @@ POST http://localhost:3003/user
 Content-Type: application/json
 
 {
-    "name": "Adria",
-    "email": "adria@email.com",
-    "password": "123456",
-    "phoneNumber": "(19) 99999-0000",
-    "zipCode": "00012-456",
-    "roleId": 1
+    "name": "Adria Tavares",
+    "email": "adria12367@gmail.com",
+    "password": "123457",
+    "phoneNumber": "1234567891011",
+    "zipCode": "10012-434678",
+    "roleId": 2
 }

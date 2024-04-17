@@ -14,9 +14,18 @@ export class UserBusiness {
   public createUser = async (input: UserInputDTO) => {
     const { name, email, password, phoneNumber, zipCode, roleId } = input;
 
-    if (!name || !email || !password || !phoneNumber || !zipCode || !roleId) {
-      throw new Error("Campos incompletos!");
-    }
+    const fields = [
+      { value: name, key: "nome" },
+      { value: email, key: "email" },
+      { value: password, key: "senha" },
+      { value: phoneNumber, key: "telefone" },
+      { value: zipCode, key: "cep" },
+      { value: roleId, key: "tipo de usuário" },
+    ];
+
+    fields.forEach((item) => {
+      if (!item.value) throw new Error(`Campo '${item.key}' vazio`);
+    });
 
     const errorMessage = FieldValidators.isAllUserFieldsValid(
       email,

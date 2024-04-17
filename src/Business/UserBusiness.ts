@@ -2,6 +2,7 @@ import { TableCreator } from "../Data/Migration";
 import { UserDatabase } from "../Data/UserDatabase";
 import { User, UserInputDTO } from "../Model/User";
 import { FieldValidators } from "../Utils/FieldsValidators";
+import { HashGenerator } from "../Utils/HashGenerator";
 import { IdGenerator } from "../Utils/IdGenerator";
 
 export class UserBusiness {
@@ -14,12 +15,17 @@ export class UserBusiness {
     const { name, email, password, phoneNumber, zipCode, roleId } = input;
 
     if (!name || !email || !password || !phoneNumber || !zipCode || !roleId) {
-        throw new Error("Campos incompletos !");
+      throw new Error("Campos incompletos!");
     }
 
-    const errorMessage = FieldValidators.isAllUserFieldsValid(email, name, phoneNumber, zipCode);
+    const errorMessage = FieldValidators.isAllUserFieldsValid(
+      email,
+      name,
+      phoneNumber,
+      zipCode
+    );
     if (errorMessage) {
-        throw new Error(errorMessage);
+      throw new Error(errorMessage);
     }
 
     User.idToUserRole(roleId);
@@ -30,11 +36,15 @@ export class UserBusiness {
 
     const id = idGenerator.generateId();
 
+    const hashGenerator = new HashGenerator();
+
+    const hashedPassword = hashGenerator.createHash(password);
+
     const newUser: User = new User(
       id,
       name,
       email,
-      password,
+      hashedPassword,
       phoneNumber,
       zipCode,
       roleId

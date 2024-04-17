@@ -8,7 +8,9 @@ export class FieldValidators {
   }
 
   static isValidName(name: string) {
-    const nameRegex = new RegExp(/^[a-zA-ZÀ-ÿ\u00f1\u00d1]{4,}(?: [a-zA-ZÀ-ÿ\u00f1\u00d1]+){0,2}$/);
+    const nameRegex = new RegExp(
+      /^[a-zA-ZÀ-ÿ\u00f1\u00d1]{4,}(?: [a-zA-ZÀ-ÿ\u00f1\u00d1]+){0,2}$/
+    );
     return nameRegex.test(name);
   }
 
@@ -18,7 +20,7 @@ export class FieldValidators {
   }
 
   static isValidZipCode(zipCode: string) {
-    const zipCodeRegex = new RegExp(/([0-9]{4}[-]?[0-9]{3})/g);
+    const zipCodeRegex = new RegExp(/^[\d]{5}[-]?[\d]{3}$/g);
     return zipCodeRegex.test(zipCode);
   }
 
@@ -31,15 +33,15 @@ export class FieldValidators {
     let errorMessage = "";
 
     if (!this.isValidEmail(email)) errorMessage = "Email inválido!";
-    
+
     if (!this.isValidName(name))
       errorMessage =
         "Nome inválido! Por favor, não usar números ou caractéres especiais.";
-    
+
     if (!this.isValidPhoneNumber(phoneNumber))
       errorMessage = "Número de telefone inválido";
-    
-    if (!this.isValidZipCode(zipCode)) errorMessage = "CEP incompleto!";
+
+    if (!this.isValidZipCode(zipCode)) errorMessage = "CEP inválido!";
 
     return errorMessage;
   }

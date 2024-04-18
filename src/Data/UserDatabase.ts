@@ -32,12 +32,19 @@ export class UserDatabase extends Connection {
         throw new Error(err.sqlMessage);
       }
     }
-  };
+  }
 
-  public async getUserByEmail(email: string): Promise<User> {
+  public async getUserByEmail(email: string): Promise<User | undefined> {
     try {
-      const user: User[] = await Connection.connection.where({ email }).from(UserDatabase.TABLE_NAME);
-      return user[0];
+      const users: User[] = await Connection.connection
+        .where({ email })
+        .from(UserDatabase.TABLE_NAME);
+
+      if (!users.length) {
+        return undefined;
+      }
+
+      return User.toUserModel(users[0]);
     } catch (err: any) {
       if (err instanceof Error) {
         throw new Error(err.message);

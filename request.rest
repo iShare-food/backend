@@ -7,8 +7,8 @@ Content-Type: application/json
     "name": "Adria Tavares",
     "email": "adria12367@gmail.com",
     "password": "123457",
-    "phoneNumber": "1234567891011",
-    "zipCode": "10012-434678",
+    "phoneNumber": "85997743646",
+    "zipCode": "10012-434",
     "roleId": 2
 }
 

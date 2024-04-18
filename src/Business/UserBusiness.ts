@@ -12,7 +12,7 @@ export class UserBusiness {
     private createTable: TableCreator,
     private hashGenerator: HashGenerator,
     private authenticator: Authenticator
-  ) { }
+  ) {}
 
   public createUser = async (input: UserInputDTO) => {
     const { name, email, password, phoneNumber, zipCode, roleId } = input;
@@ -74,17 +74,26 @@ export class UserBusiness {
   public login = async (input: LoginInputDTO) => {
     const { email, password } = input;
 
-    if (!email || !password) throw new Error("Um dos campos está vazio")
+    if (!email || !password) throw new Error("Um dos campos está vazio");
 
-    const user = await this.userDatabase.getUserByEmail(email);
+    await this.createTable.createTables();
+    const user: User | undefined = await this.userDatabase.getUserByEmail(
+      email
+    );
 
     if (!user) throw new Error("Email não cadastrado!");
 
-    const isPasswordCorrect: boolean = this.hashGenerator.compareHash(password, user.getPassword());
+    const isPasswordCorrect: boolean = this.hashGenerator.compareHash(
+      password,
+      user.getPassword()
+    );
 
-    if (!isPasswordCorrect) throw new Error("Senha incorreta!")
+    if (!isPasswordCorrect) throw new Error("Senha incorreta!");
 
-    const token: string = this.authenticator.generateToken({ id: user.getId(), role: user.getRole() })
+    const token: string = this.authenticator.generateToken({
+      id: user.getId(),
+      role: user.getRole(),
+    });
 
     return token;
   };

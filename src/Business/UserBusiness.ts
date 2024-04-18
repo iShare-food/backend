@@ -12,10 +12,10 @@ export class UserBusiness {
     private createTable: TableCreator,
     private hashGenerator: HashGenerator,
     private authenticator: Authenticator
-  ) {}
+  ) { }
 
-  public createUser = async (input: UserInputDTO) => {
-    const { name, email, password, phoneNumber, zipCode, roleId } = input;
+  public checkRequiredUserFields = (user: UserInputDTO) => {
+    const { name, email, password, phoneNumber, zipCode, roleId } = user;
 
     const fields = [
       { value: name, key: "nome" },
@@ -29,6 +29,11 @@ export class UserBusiness {
     fields.forEach((item) => {
       if (!item.value) throw new Error(`Campo '${item.key}' vazio`);
     });
+  }
+  public createUser = async (input: UserInputDTO) => {
+    const { name, email, password, phoneNumber, zipCode, roleId } = input;
+
+    this.checkRequiredUserFields(input);
 
     const errorMessage = FieldValidators.isAllUserFieldsValid(
       email,

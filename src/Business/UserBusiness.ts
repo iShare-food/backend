@@ -1,6 +1,7 @@
 import { TableCreator } from "../Data/Migration";
 import { UserDatabase } from "../Data/UserDatabase";
-import { User, UserInputDTO } from "../Model/User";
+import { LoginInputDTO, User, UserInputDTO } from "../Model/User";
+import { Authenticator } from "../Utils/Authenticator";
 import { FieldValidators } from "../Utils/FieldsValidators";
 import { HashGenerator } from "../Utils/HashGenerator";
 import { IdGenerator } from "../Utils/IdGenerator";
@@ -8,8 +9,10 @@ import { IdGenerator } from "../Utils/IdGenerator";
 export class UserBusiness {
   constructor(
     private userDatabase: UserDatabase,
-    private createTable: TableCreator
-  ) {}
+    private createTable: TableCreator,
+    private hashGenerator: HashGenerator,
+    private authenticator: Authenticator
+  ) { }
 
   public createUser = async (input: UserInputDTO) => {
     const { name, email, password, phoneNumber, zipCode, roleId } = input;
@@ -45,9 +48,7 @@ export class UserBusiness {
 
     const id = idGenerator.generateId();
 
-    const hashGenerator = new HashGenerator();
-
-    const hashedPassword = hashGenerator.createHash(password);
+    const hashedPassword = this.hashGenerator.createHash(password);
 
     const newUser: User = new User(
       id,
@@ -68,5 +69,23 @@ export class UserBusiness {
       newUser.getZipCode(),
       newUser.getRole()
     );
+  };
+
+  public login = async (input: LoginInputDTO) => {
+    const { email, password } = input;
+
+    if (!email || !password) throw new Error("Um dos campos está vazio")
+
+    const user = await this.userDatabase.getUserByEmail(email);
+
+    if (!user) throw new Error("Email não cadastrado!");
+
+    const isPasswordCorrect: boolean = this.hashGenerator.compareHash(password, user.getPassword());
+
+    if (!isPasswordCorrect) throw new Error("Senha incorreta!")
+
+    const token: string = this.authenticator.generateToken({ id: user.getId(), role: user.getRole() })
+
+    return token;
   };
 }

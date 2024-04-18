@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { UserBusiness } from '../Business/UserBusiness';
-import { UserInputDTO } from '../Model/User';
+import { LoginInputDTO, UserInputDTO } from '../Model/User';
 
 export class UserController {
     constructor(
@@ -21,7 +21,7 @@ export class UserController {
             }
 
             await this.userBusiness.createUser(input);
-            res.status(201).send({input, message: "Usuário criado com sucesso!" });
+            res.status(201).send({ input, message: "Usuário criado com sucesso!" });
         }
         catch (error) {
             if (error instanceof Error) {
@@ -29,5 +29,24 @@ export class UserController {
             }
             res.status(500).send("Erro ao cadastrar");
         }
-    }
-};
+    };
+
+    public login = async (req: Request, res: Response): Promise<void | Response> => {
+        try {
+            const { email, password } = req.body;
+
+            const input: LoginInputDTO = {
+                email,
+                password
+            }
+
+            const token = await this.userBusiness.login(input);
+            res.status(200).send({ token, message: "Login efetuado com sucesso!" });
+        } catch (error) {
+            if (error instanceof Error) {
+                return res.status(400).send(error.message);
+            }
+            res.status(500).send("Erro ao efetuar login");
+        }
+    };
+}

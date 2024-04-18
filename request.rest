@@ -11,3 +11,14 @@ Content-Type: application/json
     "zipCode": "10012-434678",
     "roleId": 2
 }
+
+###
+#Login:
+
+POST http://localhost:3003/auth
+Content-Type: application/json
+
+{
+    "email": "adria12367@gmail.com",
+    "password": "123457" 
+}

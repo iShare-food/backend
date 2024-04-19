@@ -4,10 +4,10 @@ POST http://localhost:3003/user
 Content-Type: application/json
 
 {
-    "name": "Adria Tavares",
-    "email": "adria12367@gmail.com",
-    "password": "123457",
-    "phoneNumber": "85997743646",
+    "name": "Sofia Pitta",
+    "email": "sofia@gmail.com",
+    "password": "123456",
+    "phoneNumber": "(11)99912-3456",
     "zipCode": "10012-434",
     "roleId": 2
 }
@@ -19,6 +19,12 @@ POST http://localhost:3003/auth
 Content-Type: application/json
 
 {
-    "email": "adria12367@gmail.com",
-    "password": "123457" 
+    "email": "sofia@gmail.com",
+    "password": "123456" 
 }
+
+###
+#Pegar dados do usuário:
+
+GET http://localhost:3003/userd3073ae5-3d42-4d7e-bbce-79dffee15bb5
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQzMDczYWU1LTNkNDItNGQ3ZS1iYmNlLTc5ZGZmZWUxNWJiNSIsInJvbGUiOjIsImlhdCI6MTcxMzUyMjUxNSwiZXhwIjoxNzE0MTI3MzE1fQ.jnUOrFd700mmvrN5qMDen4UbIiXaC1WbXorPoJ3nohM

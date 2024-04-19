@@ -53,4 +53,22 @@ export class UserDatabase extends Connection {
       }
     }
   }
+
+  public async getUserById(id: string): Promise<User | undefined> {
+    try {
+      const users: User[] = await Connection.connection.where({ id }).from(UserDatabase.TABLE_NAME)
+
+      if (!users.length) {
+        return undefined;
+      }
+
+      return User.toUserModel(users[0]);
+    } catch (err: any) {
+      if (err instanceof Error) {
+        throw new Error(err.message);
+      } else {
+        throw new Error(err.sqlMessage);
+      }
+    }
+  }
 }

@@ -28,3 +28,18 @@ Content-Type: application/json
 
 GET http://localhost:3003/userd3073ae5-3d42-4d7e-bbce-79dffee15bb5
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQzMDczYWU1LTNkNDItNGQ3ZS1iYmNlLTc5ZGZmZWUxNWJiNSIsInJvbGUiOjIsImlhdCI6MTcxMzUyMjUxNSwiZXhwIjoxNzE0MTI3MzE1fQ.jnUOrFd700mmvrN5qMDen4UbIiXaC1WbXorPoJ3nohM
+
+###
+#Alterar dados do usuário:
+
+PUT http://localhost:3003/userd3073ae5-3d42-4d7e-bbce-79dffee15bb5
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQzMDczYWU1LTNkNDItNGQ3ZS1iYmNlLTc5ZGZmZWUxNWJiNSIsInJvbGUiOjIsImlhdCI6MTcxMzUyMjUxNSwiZXhwIjoxNzE0MTI3MzE1fQ.jnUOrFd700mmvrN5qMDen4UbIiXaC1WbXorPoJ3nohM
+Content-Type: application/json
+
+{
+    "name": "Sofia",
+    "email": "sofia12@gmail.com",
+    "phoneNumber": "(11)99912-1111",
+    "zipCode": "10012-111",
+    "roleId": 1
+}

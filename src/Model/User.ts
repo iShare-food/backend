@@ -105,6 +105,16 @@ export interface GetUserDTO {
     token: string
 }
 
+export interface UserUpdateDTO {
+    id: string,
+    email: string;
+    name: string;
+    phoneNumber: string;
+    zipCode: string;
+    roleId: number;
+    token: string
+}
+
 export interface UserOutput {
     id: string,
     email: string;

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { UserBusiness } from '../Business/UserBusiness';
-import { GetUserDTO, LoginInputDTO, UserInputDTO, UserOutput } from '../Model/User';
+import { GetUserDTO, LoginInputDTO, UserInputDTO, UserOutput, UserUpdateDTO } from '../Model/User';
 
 export class UserController {
     constructor(
@@ -63,6 +63,27 @@ export class UserController {
             const user: UserOutput | undefined = await this.userBusiness.getUser(input);
 
             res.status(200).send(user);
+        } catch (error) {
+            if (error instanceof Error) {
+                res.status(400).send(error.message);
+            }
+            res.status(500).send("Erro ao cadastrar");
+        }
+    }
+
+    public updateUser = async (req: Request, res: Response): Promise<void | Response> => {
+        try {
+            const token: string = req.headers.authorization as string;
+            const id: string = req.params.id;
+            const { name, email, phoneNumber, zipCode, roleId } = req.body;
+
+            const input: UserUpdateDTO = {
+                id, name, email, phoneNumber, zipCode, roleId, token
+            }
+
+            await this.userBusiness.updateUser(input);
+
+            res.status(200).send("Usuário atualizado com sucesso");
         } catch (error) {
             if (error instanceof Error) {
                 res.status(400).send(error.message);

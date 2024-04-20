@@ -1,6 +1,6 @@
 import { TableCreator } from "../Data/Migration";
 import { UserDatabase } from "../Data/UserDatabase";
-import { GetUserDTO, LoginInputDTO, User, UserInputDTO, UserOutput } from "../Model/User";
+import { GetUserDTO, LoginInputDTO, User, UserInputDTO, UserOutput, UserUpdateDTO } from "../Model/User";
 import { AuthenticationData, Authenticator } from "../Utils/Authenticator";
 import { FieldValidators } from "../Utils/FieldsValidators";
 import { HashGenerator } from "../Utils/HashGenerator";
@@ -14,8 +14,13 @@ export class UserBusiness {
     private authenticator: Authenticator
   ) { }
 
-  public checkRequiredUserFields = (user: UserInputDTO) => {
-    const { name, email, password, phoneNumber, zipCode, roleId } = user;
+  public checkRequiredUserFields = (fields: any) => {
+    fields.forEach((item: { value: any, key: string }) => {
+      if (!item.value) throw new Error(`Campo '${item.key}' vazio`);
+    });
+  }
+  public createUser = async (input: UserInputDTO) => {
+    const { name, email, password, phoneNumber, zipCode, roleId } = input;
 
     const fields = [
       { value: name, key: "nome" },
@@ -26,14 +31,7 @@ export class UserBusiness {
       { value: roleId, key: "tipo de usuário" },
     ];
 
-    fields.forEach((item) => {
-      if (!item.value) throw new Error(`Campo '${item.key}' vazio`);
-    });
-  }
-  public createUser = async (input: UserInputDTO) => {
-    const { name, email, password, phoneNumber, zipCode, roleId } = input;
-
-    this.checkRequiredUserFields(input);
+    this.checkRequiredUserFields(fields);
 
     const errorMessage: string = FieldValidators.isAllUserFieldsValid(
       email,
@@ -122,5 +120,42 @@ export class UserBusiness {
       zipCode: user.getZipCode(),
       roleId: user.getRole(),
     }
+  }
+
+  public updateUser = async (input: UserUpdateDTO): Promise<void> => {
+    const { id, name, email, phoneNumber, zipCode, roleId, token } = input;
+
+    const authentication = this.authenticator.getTokenData(token);
+
+    if (!authentication) throw new Error("Token inválido!");
+
+    const fields = [
+      { value: id, key: 'id' },
+      { value: name, key: 'nome' },
+      { value: email, key: 'email' },
+      { value: phoneNumber, key: 'telefone' },
+      { value: zipCode, key: 'cep' },
+      { value: token, key: 'token' }
+    ];
+
+    this.checkRequiredUserFields(fields);
+
+    const errorMessage: string = FieldValidators.isAllUserFieldsValid(
+      email,
+      name,
+      phoneNumber,
+      zipCode
+    );
+    if (errorMessage) {
+      throw new Error(errorMessage);
+    }
+
+    User.idToUserRole(roleId);
+
+    const user = await this.userDatabase.getUserById(id);
+
+    if (!user) throw new Error("Usuário não existe!");
+
+    await this.userDatabase.updateUser(id, name, email, phoneNumber, zipCode, roleId);
   }
 }

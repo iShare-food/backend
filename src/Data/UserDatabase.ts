@@ -1,5 +1,5 @@
 import { Connection } from "../../src/connection";
-import { User } from "../Model/User";
+import { User, UserRole } from "../Model/User";
 
 export class UserDatabase extends Connection {
   private static TABLE_NAME = "users";
@@ -63,6 +63,30 @@ export class UserDatabase extends Connection {
       }
 
       return User.toUserModel(users[0]);
+    } catch (err: any) {
+      if (err instanceof Error) {
+        throw new Error(err.message);
+      } else {
+        throw new Error(err.sqlMessage);
+      }
+    }
+  }
+
+  public async updateUser(
+    id: string,
+    name: string,
+    email: string,
+    phoneNumber: string,
+    zipCode: string,
+    roleId: UserRole): Promise<void> {
+    try {
+      await Connection.connection.table(UserDatabase.TABLE_NAME).where({ id }).update({
+        name,
+        email,
+        phone_number: phoneNumber,
+        zip_code: zipCode,
+        role_id: roleId
+      });
     } catch (err: any) {
       if (err instanceof Error) {
         throw new Error(err.message);

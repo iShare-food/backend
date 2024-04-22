@@ -7,7 +7,7 @@ export class User {
         private phoneNumber: string,
         private zipCode: string,
         private roleId: number
-    ) {};
+    ) { };
 
     getId() {
         return this.id;
@@ -77,7 +77,7 @@ export class User {
     };
 
     static toUserModel(user: any): User {
-        return new User(user.id, user.name, user.email, user.password, user.phoneNumber, user.zipCode, user.roleId);
+        return new User(user.id, user.name, user.email, user.password, user.phone_number, user.zip_code, user.role_id);
     };
 };
 
@@ -99,3 +99,27 @@ export interface LoginInputDTO {
     email: string;
     password: string;
 };
+
+export interface GetUserDTO {
+    id: string,
+    token: string
+}
+
+export interface UserUpdateDTO {
+    id: string,
+    email: string;
+    name: string;
+    phoneNumber: string;
+    zipCode: string;
+    roleId: number;
+    token: string
+}
+
+export interface UserOutput {
+    id: string,
+    email: string;
+    name: string;
+    phoneNumber: string
+    zipCode: string
+    roleId: number;
+}

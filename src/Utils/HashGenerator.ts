@@ -2,13 +2,13 @@ import { compareSync, genSaltSync, hashSync } from "bcryptjs";
 import dotenv from 'dotenv';
 
 export class HashGenerator {
-  public createHash = (password: string): string => {
+  public createHash = (password: string | undefined): string => {
     const cost = Number(process.env.BCRYPT_COST);
     const salt: string = genSaltSync(cost);
 
-    const cypherText: string = hashSync(password, salt);
+    if (!password) throw new Error('Senha não recebida');
 
-    return cypherText;
+    return hashSync(password, salt);
   };
 
   public compareHash = (password: string, cypherPassword: string): boolean => {

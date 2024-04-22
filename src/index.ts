@@ -17,3 +17,5 @@ const userController: UserController = new UserController(userBusiness);
 //User requests:
 app.post("/user", userController.createUser);
 app.post("/auth", userController.login);
+app.get("/user:id", userController.getUser);
+app.put("/user:id", userController.updateUser);

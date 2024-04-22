@@ -36,7 +36,7 @@ export class FieldValidators {
 
     if (!this.isValidName(name))
       errorMessage =
-        "Nome inválido! Por favor, não usar números ou caractéres especiais.";
+        "Nome inválido! Campo deve possuir acima de 3 letras e não deve possuir números ou caractéres especiais .";
 
     if (!this.isValidPhoneNumber(phoneNumber))
       errorMessage = "Número de telefone inválido";
